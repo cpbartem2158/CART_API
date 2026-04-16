@@ -23,6 +23,7 @@ func (s *Server) Start() error {
 
 	mux.HandleFunc("POST /carts", s.CreateCart)
 	mux.HandleFunc("POST /carts/{id}/items", s.AddCartItemToCart)
+	mux.HandleFunc("DELETE /carts/{id}/items/{item_id}", s.RemoveCartItem)
 
 	httpServer := &http.Server{
 		Addr:         ":" + s.config.Port,
