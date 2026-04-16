@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cpbartem2158/CartAPI/internal/entity"
-	"github.com/cpbartem2158/CartAPI/internal/errorsx"
+	"github.com/cpbartem2158/CART_API/internal/entity"
+	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
 func (s *Server) AddCartItemToCart(w http.ResponseWriter, r *http.Request) {

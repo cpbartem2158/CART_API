@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/cpbartem2158/CartAPI/internal/entity"
+	"github.com/cpbartem2158/CART_API/internal/entity"
 )
 
 func (s *Service) AddCartItemToCart(ctx context.Context, cartID int, product string, price float64) (*entity.CartItem, error) {
