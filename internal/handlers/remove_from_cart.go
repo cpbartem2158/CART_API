@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cpbartem2158/CartAPI/internal/errorsx"
+	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
 func (s *Server) RemoveCartItem(w http.ResponseWriter, r *http.Request) {

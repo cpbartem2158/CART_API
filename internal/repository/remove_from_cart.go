@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/cpbartem2158/CartAPI/internal/errorsx"
+	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
 func (r *Repository) RemoveCartItem(ctx context.Context, cartID int, cartItemID int) error {
