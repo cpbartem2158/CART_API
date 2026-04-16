@@ -11,4 +11,5 @@ type Servicer interface {
 	AddCartItemToCart(ctx context.Context, cartID int, product string, price float64) (*entity.CartItem, error)
 	RemoveItem(ctx context.Context, cartID int, cartItemID int) error
 	GetCart(ctx context.Context, cartID int) (*entity.Cart, error)
+	CalculatePrice(ctx context.Context, cartID int) (*entity.PriceResponse, error)
 }
