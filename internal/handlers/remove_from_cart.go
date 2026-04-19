@@ -41,7 +41,7 @@ func (s *Server) RemoveCartItem(w http.ResponseWriter, r *http.Request) {
 			writeJSONError(w, http.StatusNotFound, "cart item not found", s.logger)
 			return
 		}
-		s.logger.Error("failed to remove cart item", err)
+		s.logger.Error("failed to remove cart item", "error", err)
 		writeJSONError(w, http.StatusInternalServerError, "failed to remove cart item", s.logger)
 		return
 	}

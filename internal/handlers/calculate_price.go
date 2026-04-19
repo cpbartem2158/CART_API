@@ -30,7 +30,7 @@ func (s *Server) CalculatePrice(w http.ResponseWriter, r *http.Request) {
 			writeJSONError(w, http.StatusNotFound, "cart not found", s.logger)
 			return
 		}
-		s.logger.Error("failed to calculate price", err)
+		s.logger.Error("failed to calculate price", "error", err)
 		writeJSONError(w, http.StatusInternalServerError, "failed to calculate price", s.logger)
 		return
 	}

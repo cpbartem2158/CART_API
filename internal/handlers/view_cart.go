@@ -33,7 +33,7 @@ func (s *Server) GetCart(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		s.logger.Error("error view cart", err, s.logger)
+		s.logger.Error("error view cart", "error", err)
 		writeJSONError(w, http.StatusInternalServerError, "error view cart", s.logger)
 		return
 	}

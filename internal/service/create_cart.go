@@ -9,9 +9,9 @@ import (
 
 func (s *Service) CreateCart(ctx context.Context) (*entity.Cart, error) {
 
-	cart, err := s.repo.AddCart(ctx)
+	cart, err := s.repo.CreateCart(ctx)
 	if err != nil {
-		s.logger.Error("failed to create cart", err)
+		s.logger.Error("failed to create cart", "error", err)
 		return nil, err
 	}
 	s.logger.Info(fmt.Sprintf("created cart with id: %d", cart.ID))

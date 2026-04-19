@@ -11,7 +11,7 @@ func (s *Service) AddCartItemToCart(ctx context.Context, cartID int, product str
 
 	cartItem, err := s.repo.AddCartItem(ctx, cartID, product, price)
 	if err != nil {
-		s.logger.Error("failed to add item to cart", err)
+		s.logger.Error("failed to add item to cart", "error", err)
 		return nil, err
 	}
 	s.logger.Info(fmt.Sprintf("add item with id: %d", cartItem.ID))

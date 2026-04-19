@@ -55,7 +55,7 @@ func (s *Server) AddCartItemToCart(w http.ResponseWriter, r *http.Request) {
 			writeJSONError(w, http.StatusInternalServerError, "cart is full (maximum 5 items)", s.logger)
 			return
 		}
-		s.logger.Error("error adding cartItem to cart", err, s.logger)
+		s.logger.Error("error adding cartItem to cart", "error", err)
 		writeJSONError(w, http.StatusInternalServerError, "error adding cartItem to cart", s.logger)
 		return
 	}

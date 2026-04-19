@@ -16,7 +16,7 @@ func (s *Server) CreateCart(w http.ResponseWriter, r *http.Request) {
 
 	cart, err := s.service.CreateCart(ctx)
 	if err != nil {
-		s.logger.Error("failed to create cart", err)
+		s.logger.Error("failed to create cart", "error", err)
 		writeJSONError(w, http.StatusInternalServerError, "something went wrong", s.logger)
 		return
 	}

@@ -12,9 +12,9 @@ func (s *Service) CalculatePrice(ctx context.Context, cartID int) (*entity.Price
 	cart, err := s.repo.GetCart(ctx, cartID)
 	if err != nil {
 		if err == errorsx.ErrCartNotFound {
-			s.logger.Warn("cart not found", cartID)
+			s.logger.Warn("cart not found", "cart_id", cartID)
 		} else {
-			s.logger.Error("failed to get cart for calculate price", err.Error())
+			s.logger.Error("failed to get cart for calculate price", "error", err)
 		}
 		return nil, err
 	}

@@ -19,14 +19,14 @@ func main() {
 
 	cfg, err := config.LoadConfig("config")
 	if err != nil {
-		logger.Error("failed to load config", err)
+		logger.Error("failed to load config", "error", err)
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	database, err := db.Connect(ctx, cfg.Database)
 	if err != nil {
-		logger.Error("failed to connect database", err)
+		logger.Error("failed to connect database", "error", err)
 		return
 	}
 	defer database.Close()
@@ -36,7 +36,7 @@ func main() {
 	server := handlers.NewServer(service, logger, &cfg.Server)
 
 	if err := server.Start(); err != nil {
-		logger.Error("failed to start server", err)
+		logger.Error("failed to start server", "error", err)
 		return
 	}
 

@@ -16,7 +16,7 @@ func writeJSONError(w http.ResponseWriter, statusCode int, message string, logge
 
 	response := ErrorResponse{message}
 	if err := json.NewEncoder(w).Encode(response); err != nil {
-		logger.Error("failed to encode error response", err)
+		logger.Error("failed to encode error response", "error", err)
 	}
 }
 
@@ -25,6 +25,6 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}, 
 	w.WriteHeader(statusCode)
 
 	if err := json.NewEncoder(w).Encode(data); err != nil {
-		logger.Error("failed to encode response", err)
+		logger.Error("failed to encode response", "error", err)
 	}
 }

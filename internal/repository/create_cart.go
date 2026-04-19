@@ -7,7 +7,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/entity"
 )
 
-func (r *Repository) AddCart(ctx context.Context) (*entity.Cart, error) {
+func (r *Repository) CreateCart(ctx context.Context) (*entity.Cart, error) {
 
 	query := `
 			INSERT INTO carts (created_at, updated_at) VALUES ($1, $2)
