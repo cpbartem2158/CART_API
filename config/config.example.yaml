@@ -1,9 +1,9 @@
 database:
   host: "localhost"
-  port: "5433"
+  port: "5432"
   user: "postgres"
-  password: "12345"
-  dbname: "cart_db"
+  password: "11111"
+  dbname: "database"
   sslmode: "disable"
 
 server:
