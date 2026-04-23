@@ -4,17 +4,15 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
-)
 
-type ErrorResponse struct {
-	Error string `json:"error"`
-}
+	"github.com/cpbartem2158/CART_API/internal/entity"
+)
 
 func writeJSONError(w http.ResponseWriter, statusCode int, message string, logger *slog.Logger) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(statusCode)
 
-	response := ErrorResponse{message}
+	response := entity.ErrorResponse{Error: message}
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		logger.Error("failed to encode error response", "error", err)
 	}
