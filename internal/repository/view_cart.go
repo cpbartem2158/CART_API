@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 
 	"github.com/cpbartem2158/CART_API/internal/entity"
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
@@ -36,7 +37,7 @@ func (r *Repository) GetCart(ctx context.Context, cartID int) (*entity.Cart, err
 		&cart.CreatedAt,
 		&cart.UpdatedAt,
 	)
-	if err == sql.ErrNoRows {
+	if errors.Is(err, sql.ErrNoRows) {
 		return nil, errorsx.ErrCartNotFound
 	}
 	if err != nil {
