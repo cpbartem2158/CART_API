@@ -17,8 +17,8 @@ var embedMigrations embed.FS
 func Connect(ctx context.Context, cfg config.DatabaseConfig) (*sqlx.DB, error) {
 
 	configsDB := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%d  sslmode=disable",
-		cfg.Host, cfg.User, cfg.Password, cfg.DBName, cfg.Port,
+		"host=%s user=%s password=%s dbname=%s port=%d  sslmode=%s",
+		cfg.Host, cfg.User, cfg.Password, cfg.DBName, cfg.Port, cfg.SSLMode,
 	)
 
 	db, err := sqlx.ConnectContext(ctx, "postgres", configsDB)

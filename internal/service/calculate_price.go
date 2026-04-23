@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/cpbartem2158/CART_API/internal/entity"
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
@@ -11,7 +12,7 @@ func (s *Service) CalculatePrice(ctx context.Context, cartID int) (*entity.Price
 
 	cart, err := s.repo.GetCart(ctx, cartID)
 	if err != nil {
-		if err == errorsx.ErrCartNotFound {
+		if errors.Is(err, errorsx.ErrCartNotFound) {
 			s.logger.Warn("cart not found", "cart_id", cartID)
 		} else {
 			s.logger.Error("failed to get cart for calculate price", "error", err)
