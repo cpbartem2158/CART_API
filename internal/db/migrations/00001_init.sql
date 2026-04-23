@@ -10,7 +10,7 @@ CREATE TABLE carts(
 
 CREATE TABLE cart_items (
                             id INTEGER PRIMARY KEY,
-                            cart_id BIGINT NOT NULL, FOREIGN KEY(cart_id) REFERENCES carts(id) ON DELETE CASCADE,
+                            cart_id INTEGER NOT NULL, FOREIGN KEY(cart_id) REFERENCES carts(id) ON DELETE CASCADE,
                             product VARCHAR (255) NOT NULL,
                             price DECIMAL(10,2) NOT NULL CHECK(price>0),
                             created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
