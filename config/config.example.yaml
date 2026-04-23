@@ -1,9 +1,9 @@
 database:
   host: "localhost"
-  port: "5433"
+  port: "5432"
   user: "postgres"
-  password: "12345"
-  dbname: "cart_db"
+  password: "11111"
+  dbname: "database"
   sslmode: "disable"
 
 server:
@@ -11,4 +11,3 @@ server:
   read_timeout: "30s"
   write_timeout: "30s"
   keepalive_timeout: "120s"
-
