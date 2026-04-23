@@ -89,7 +89,6 @@ func TestService_AddItem_Success(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, expectedItem, item)
-
 }
 
 func TestService_AddItem_FullCart(t *testing.T) {
@@ -131,7 +130,6 @@ func TestService_CalculatePrice(t *testing.T) {
 	assert.Equal(t, 5222.0, priceInfo.TotalPrice)
 	assert.Equal(t, 10, priceInfo.DiscountPercent)
 	assert.Equal(t, 5222.0*0.9, priceInfo.FinalPrice)
-
 }
 
 func TestService_RemoveItem_Success(t *testing.T) {
@@ -163,5 +161,5 @@ func TestService_RemoveItem_ItemNotFound(t *testing.T) {
 	svc := NewService(mockRepo, logger)
 	err := svc.RemoveItem(context.Background(), 1, 1)
 	assert.Error(t, err)
-	
+
 }

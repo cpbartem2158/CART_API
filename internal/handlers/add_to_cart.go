@@ -47,6 +47,10 @@ func (s *Server) AddCartItemToCart(w http.ResponseWriter, r *http.Request) {
 
 	cartItem, err := s.service.AddCartItemToCart(ctx, cartId, request.Product, request.Price)
 	if err != nil {
+		if errors.Is(err, errorsx.ErrCartNotFound) {
+			writeJSONError(w, http.StatusNotFound, "cart not found", s.logger)
+			return
+		}
 		if errors.Is(err, errorsx.ErrCartItemNotFound) {
 			writeJSONError(w, http.StatusNotFound, "cart item not found", s.logger)
 			return

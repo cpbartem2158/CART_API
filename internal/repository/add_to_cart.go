@@ -37,9 +37,9 @@ func (r *Repository) AddCartItem(ctx context.Context, cartID int, product string
 	}
 
 	addItemToCartQuery := `
-					INSERT INTO cart_items (cart_id, product, price, created_at, updated_at) 
-					VALUES ($1, $2, $3, NOW(), NOW())
-					RETURNING id, cart_id,product,price,created_at, updated_at`
+					INSERT INTO cart_items (cart_id, product, price)
+					VALUES ($1, $2, $3)
+					RETURNING id, cart_id, product, price, created_at, updated_at`
 
 	var item entity.CartItem
 
