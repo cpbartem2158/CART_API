@@ -4,6 +4,7 @@ database:
   user: "postgres"
   password: "12345"
   dbname: "cart_db"
+  sslmode : "disable"
 
 server:
   port: "8080"
