@@ -2,8 +2,7 @@ package repository
 
 import (
 	"context"
-	"database/sql"
-	"errors"
+	"time"
 
 	"github.com/cpbartem2158/CART_API/internal/entity"
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
@@ -11,66 +10,67 @@ import (
 
 func (r *Repository) GetCart(ctx context.Context, cartID int) (*entity.Cart, error) {
 
-	transaction, err := r.db.BeginTx(ctx, nil)
-	if err != nil {
-		return nil, err
-	}
-	defer transaction.Rollback()
+	query := `
+   SELECT 
+       c.id, c.created_at, c.updated_at,
+       ci.id, ci.cart_id, ci.product, ci.price, ci.created_at,ci.updated_at
+   FROM carts c
+   LEFT JOIN cart_items ci ON c.id = ci.cart_id
+   WHERE c.id = $1`
 
-	var exists bool
-	checkCartExistQuery := `SELECT EXISTS (SELECT 1 FROM carts WHERE id = $1)`
-	err = transaction.QueryRowContext(ctx, checkCartExistQuery, cartID).Scan(&exists)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errorsx.ErrCartNotFound
-	}
-
-	viewCartQuery := `
-					SELECT id, created_at, updated_at FROM carts WHERE id = $1`
-
-	var cart entity.Cart
-
-	err = transaction.QueryRowContext(ctx, viewCartQuery, cartID).Scan(
-		&cart.ID,
-		&cart.CreatedAt,
-		&cart.UpdatedAt,
-	)
-	if errors.Is(err, sql.ErrNoRows) {
-		return nil, errorsx.ErrCartNotFound
-	}
-	if err != nil {
-		return nil, err
-	}
-	cartItemsQuery := `SELECT id , cart_id, product, price, created_at, updated_at FROM cart_items WHERE cart_id = $1 ORDER BY id`
-
-	rows, err := transaction.QueryContext(ctx, cartItemsQuery, cartID)
+	rows, err := r.db.QueryContext(ctx, query, cartID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var cartItems []entity.CartItem
+	cart := &entity.Cart{}
+	var items []entity.CartItem
+	cartFound := false
+
 	for rows.Next() {
-		var item entity.CartItem
+		var itemID, itemCartID *int64
+		var product *string
+		var price *float64
+		var itemCreatedAt, itemUpdatedAt *time.Time
+
 		err := rows.Scan(
-			&item.ID,
-			&item.CartID,
-			&item.Product,
-			&item.Price,
-			&item.CreatedAt,
-			&item.UpdatedAt,
+			&cart.ID,
+			&cart.CreatedAt,
+			&cart.UpdatedAt,
+			&itemID,
+			&itemCartID,
+			&product,
+			&price,
+			&itemCreatedAt,
+			&itemUpdatedAt,
 		)
 		if err != nil {
 			return nil, err
 		}
-		cartItems = append(cartItems, item)
+
+		cartFound = true
+
+		if itemID != nil {
+			items = append(items, entity.CartItem{
+				ID:        *itemID,
+				CartID:    *itemCartID,
+				Product:   *product,
+				Price:     *price,
+				CreatedAt: *itemCreatedAt,
+				UpdatedAt: *itemUpdatedAt,
+			})
+		}
 	}
-	cart.Items = cartItems
-	if err := transaction.Commit(); err != nil {
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-
-	return &cart, nil
+	if !cartFound {
+		return nil, errorsx.ErrCartNotFound
+	}
+	if items == nil {
+		items = []entity.CartItem{}
+	}
+	cart.Items = items
+	return cart, nil
 }
