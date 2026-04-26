@@ -1,0 +1,14 @@
+database:
+  host: ""
+  port: ""
+  user: ""
+  password: ""
+  dbname: ""
+  sslmode: ""
+
+server:
+  port: ""
+  read_timeout: ""
+  write_timeout: ""
+  keepalive_timeout: ""
+
