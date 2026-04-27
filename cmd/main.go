@@ -4,6 +4,8 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/cpbartem2158/CART_API/internal/config"
@@ -20,6 +22,7 @@ func main() {
 	cfg, err := config.LoadConfig("config")
 	if err != nil {
 		logger.Error("failed to load config", "error", err)
+		os.Exit(1)
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -35,9 +38,27 @@ func main() {
 	service := service.NewService(repo, logger)
 	server := handlers.NewServer(service, logger, &cfg.Server)
 
-	if err := server.Start(); err != nil {
-		logger.Error("failed to start server", "error", err)
-		return
+	serverErrors := make(chan error, 1)
+
+	go func() { serverErrors <- server.Start() }()
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
+
+	select {
+	case err := <-serverErrors:
+		logger.Error("server error", "error", err)
+		os.Exit(1)
+	case sig := <-shutdown:
+		logger.Info("Shutting down...", "signal", sig.String())
+
+		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer shutdownCancel()
+
+		if err := server.Shutdown(shutdownCtx); err != nil {
+			logger.Error("failed to shutdown", "error", err)
+			os.Exit(1)
+		}
+		logger.Info("Shutdown complete")
 	}
 
 }

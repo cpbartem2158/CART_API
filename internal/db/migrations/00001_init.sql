@@ -2,22 +2,22 @@
 --+goose Up
 --+goose StatementBegin
 
-CREATE TABLE carts(
-                      id INTEGER PRIMARY KEY,
-                      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-                      updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE carts (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE cart_items (
-                            id INTEGER PRIMARY KEY,
-                            cart_id INTEGER NOT NULL, FOREIGN KEY(cart_id) REFERENCES carts(id) ON DELETE CASCADE,
-                            product VARCHAR (255) NOT NULL,
-                            price DECIMAL(10,2) NOT NULL CHECK(price>0),
-                            created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-                            updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    id SERIAL PRIMARY KEY,
+    cart_id INTEGER NOT NULL REFERENCES carts (id) ON DELETE CASCADE,
+    product VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) NOT NULL CHECK (price > 0),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_cart_id ON cart_items(cart_id);
+CREATE INDEX idx_cart_id ON cart_items (cart_id);
 
 --+goose StatementEnd
 
