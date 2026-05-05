@@ -6,7 +6,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
-func (r *Repository) RemoveCartItem(ctx context.Context, cartID int, cartItemID int) error {
+func (r *Repository) RemoveCartItem(ctx context.Context, cartID int64, cartItemID int64) error {
 
 	transaction, err := r.db.BeginTx(ctx, nil)
 	if err != nil {

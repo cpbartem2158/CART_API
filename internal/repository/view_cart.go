@@ -8,7 +8,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
-func (r *Repository) GetCart(ctx context.Context, cartID int) (*entity.Cart, error) {
+func (r *Repository) GetCart(ctx context.Context, cartID int64) (*entity.Cart, error) {
 
 	query := `
    SELECT 

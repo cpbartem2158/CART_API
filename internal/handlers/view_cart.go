@@ -17,7 +17,7 @@ func (s *Server) GetCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	idStr := r.PathValue("id")
-	cartId, err := strconv.Atoi(idStr)
+	cartId, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		writeJSONError(w, http.StatusBadRequest, "invalid cart ID", s.logger)
 		return

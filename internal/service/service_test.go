@@ -30,7 +30,7 @@ func TestService_CreateCart(t *testing.T) {
 	cart, err := svc.CreateCart(context.Background())
 
 	assert.NoError(t, err)
-	assert.Equal(t, 1, cart.ID)
+	assert.Equal(t, int64(1), cart.ID)
 	assert.Empty(t, cart.Items)
 
 }
@@ -48,7 +48,7 @@ func TestService_ViewCart_Success(t *testing.T) {
 			},
 		},
 	}
-	mockRepo.On("GetCart", context.Background(), 1).Return(expectedCart, nil)
+	mockRepo.On("GetCart", context.Background(), int64(1)).Return(expectedCart, nil)
 
 	svc := NewService(mockRepo, logger)
 
@@ -61,7 +61,7 @@ func TestService_ViewCart_Success(t *testing.T) {
 func TestService_ViewCart_Fail(t *testing.T) {
 	mockRepo := mocks.NewMockRepository(t)
 
-	mockRepo.On("GetCart", context.Background(), 191).Return(nil, errorsx.ErrCartNotFound)
+	mockRepo.On("GetCart", context.Background(), int64(191)).Return(nil, errorsx.ErrCartNotFound)
 
 	svc := NewService(mockRepo, logger)
 	cart, err := svc.GetCart(context.Background(), 191)
@@ -81,7 +81,7 @@ func TestService_AddItem_Success(t *testing.T) {
 		Product: "test",
 		Price:   121,
 	}
-	mockRepo.On("AddCartItem", context.Background(), 1, "test", 121.0).Return(expectedItem, nil)
+	mockRepo.On("AddCartItem", context.Background(), int64(1), "test", 121.0).Return(expectedItem, nil)
 
 	svc := NewService(mockRepo, logger)
 
@@ -94,7 +94,7 @@ func TestService_AddItem_Success(t *testing.T) {
 func TestService_AddItem_FullCart(t *testing.T) {
 	mockRepo := mocks.NewMockRepository(t)
 
-	mockRepo.On("AddCartItem", context.Background(), 1, "test", 121.0).Return(nil, errorsx.ErrCartFull)
+	mockRepo.On("AddCartItem", context.Background(), int64(1), "test", 121.0).Return(nil, errorsx.ErrCartFull)
 
 	svc := NewService(mockRepo, logger)
 
@@ -122,20 +122,20 @@ func TestService_CalculatePrice(t *testing.T) {
 			},
 		},
 	}
-	mockRepo.On("GetCart", context.Background(), 1).Return(cart, nil)
+	mockRepo.On("GetCart", context.Background(), int64(1)).Return(cart, nil)
 	svc := NewService(mockRepo, logger)
 	priceInfo, err := svc.CalculatePrice(context.Background(), 1)
 
 	assert.NoError(t, err)
 	assert.Equal(t, 5222.0, priceInfo.TotalPrice)
-	assert.Equal(t, 10, priceInfo.DiscountPercent)
+	assert.Equal(t, int64(10), priceInfo.DiscountPercent)
 	assert.Equal(t, 5222.0*0.9, priceInfo.FinalPrice)
 }
 
 func TestService_RemoveItem_Success(t *testing.T) {
 	mockRepo := mocks.NewMockRepository(t)
 
-	mockRepo.On("RemoveCartItem", context.Background(), 1, 1).Return(nil)
+	mockRepo.On("RemoveCartItem", context.Background(), int64(1), int64(1)).Return(nil)
 
 	svc := NewService(mockRepo, logger)
 
@@ -146,7 +146,7 @@ func TestService_RemoveItem_Success(t *testing.T) {
 func TestService_RemoveItem_CartNotFound(t *testing.T) {
 	mockRepo := mocks.NewMockRepository(t)
 
-	mockRepo.On("RemoveCartItem", context.Background(), 1, 1).Return(errorsx.ErrCartNotFound)
+	mockRepo.On("RemoveCartItem", context.Background(), int64(1), int64(1)).Return(errorsx.ErrCartNotFound)
 
 	svc := NewService(mockRepo, logger)
 
@@ -157,7 +157,7 @@ func TestService_RemoveItem_CartNotFound(t *testing.T) {
 func TestService_RemoveItem_ItemNotFound(t *testing.T) {
 	mockRepo := mocks.NewMockRepository(t)
 
-	mockRepo.On("RemoveCartItem", context.Background(), 1, 1).Return(errorsx.ErrCartItemNotFound)
+	mockRepo.On("RemoveCartItem", context.Background(), int64(1), int64(1)).Return(errorsx.ErrCartItemNotFound)
 	svc := NewService(mockRepo, logger)
 	err := svc.RemoveItem(context.Background(), 1, 1)
 	assert.Error(t, err)

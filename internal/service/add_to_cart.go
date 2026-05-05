@@ -7,7 +7,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/entity"
 )
 
-func (s *Service) AddCartItemToCart(ctx context.Context, cartID int, product string, price float64) (*entity.CartItem, error) {
+func (s *Service) AddCartItemToCart(ctx context.Context, cartID int64, product string, price float64) (*entity.CartItem, error) {
 
 	cartItem, err := s.repo.AddCartItem(ctx, cartID, product, price)
 	if err != nil {

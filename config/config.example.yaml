@@ -10,4 +10,4 @@ server:
   port: ""
   read_timeout: ""
   write_timeout: ""
-  keepalive_timeout: ""
+  idle_timeout: ""

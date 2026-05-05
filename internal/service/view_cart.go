@@ -9,7 +9,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
-func (s *Service) GetCart(ctx context.Context, cartID int) (*entity.Cart, error) {
+func (s *Service) GetCart(ctx context.Context, cartID int64) (*entity.Cart, error) {
 
 	cart, err := s.repo.GetCart(ctx, cartID)
 	if err != nil {

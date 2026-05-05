@@ -17,13 +17,13 @@ func (s *Server) RemoveCartItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cartIdStr := r.PathValue("id")
-	cartId, err := strconv.Atoi(cartIdStr)
+	cartId, err := strconv.ParseInt(cartIdStr, 10, 64)
 	if err != nil {
 		writeJSONError(w, http.StatusBadRequest, "invalid cart ID", s.logger)
 		return
 	}
 	itemIdStr := r.PathValue("item_id")
-	itemId, err := strconv.Atoi(itemIdStr)
+	itemId, err := strconv.ParseInt(itemIdStr, 10, 64)
 	if err != nil {
 		writeJSONError(w, http.StatusBadRequest, "invalid item ID", s.logger)
 		return

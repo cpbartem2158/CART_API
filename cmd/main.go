@@ -30,7 +30,7 @@ func main() {
 	database, err := db.Connect(ctx, cfg.Database)
 	if err != nil {
 		logger.Error("failed to connect database", "error", err)
-		return
+		os.Exit(1)
 	}
 	defer database.Close()
 
@@ -40,7 +40,9 @@ func main() {
 
 	serverErrors := make(chan error, 1)
 
-	go func() { serverErrors <- server.Start() }()
+	go func() {
+		serverErrors <- server.Start()
+	}()
 	shutdown := make(chan os.Signal, 1)
 	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
 

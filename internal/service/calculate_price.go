@@ -8,7 +8,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
-func (s *Service) CalculatePrice(ctx context.Context, cartID int) (*entity.PriceResponse, error) {
+func (s *Service) CalculatePrice(ctx context.Context, cartID int64) (*entity.PriceResponse, error) {
 
 	cart, err := s.repo.GetCart(ctx, cartID)
 	if err != nil {
@@ -25,7 +25,7 @@ func (s *Service) CalculatePrice(ctx context.Context, cartID int) (*entity.Price
 		totalPrice += item.Price
 	}
 
-	discountPercent := 0
+	var discountPercent int64 = 0
 
 	if len(cart.Items) >= 3 && totalPrice > 5000 {
 		discountPercent = 15

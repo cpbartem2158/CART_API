@@ -23,7 +23,7 @@ func (_m *MockRepository) EXPECT() *MockRepository_Expecter {
 }
 
 // AddCartItem provides a mock function with given fields: ctx, cartID, product, price
-func (_m *MockRepository) AddCartItem(ctx context.Context, cartID int, product string, price float64) (*entity.CartItem, error) {
+func (_m *MockRepository) AddCartItem(ctx context.Context, cartID int64, product string, price float64) (*entity.CartItem, error) {
 	ret := _m.Called(ctx, cartID, product, price)
 
 	if len(ret) == 0 {
@@ -32,10 +32,10 @@ func (_m *MockRepository) AddCartItem(ctx context.Context, cartID int, product s
 
 	var r0 *entity.CartItem
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int, string, float64) (*entity.CartItem, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64, string, float64) (*entity.CartItem, error)); ok {
 		return rf(ctx, cartID, product, price)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int, string, float64) *entity.CartItem); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64, string, float64) *entity.CartItem); ok {
 		r0 = rf(ctx, cartID, product, price)
 	} else {
 		if ret.Get(0) != nil {
@@ -43,7 +43,7 @@ func (_m *MockRepository) AddCartItem(ctx context.Context, cartID int, product s
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int, string, float64) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, int64, string, float64) error); ok {
 		r1 = rf(ctx, cartID, product, price)
 	} else {
 		r1 = ret.Error(1)
@@ -59,16 +59,16 @@ type MockRepository_AddCartItem_Call struct {
 
 // AddCartItem is a helper method to define mock.On call
 //   - ctx context.Context
-//   - cartID int
+//   - cartID int64
 //   - product string
 //   - price float64
 func (_e *MockRepository_Expecter) AddCartItem(ctx interface{}, cartID interface{}, product interface{}, price interface{}) *MockRepository_AddCartItem_Call {
 	return &MockRepository_AddCartItem_Call{Call: _e.mock.On("AddCartItem", ctx, cartID, product, price)}
 }
 
-func (_c *MockRepository_AddCartItem_Call) Run(run func(ctx context.Context, cartID int, product string, price float64)) *MockRepository_AddCartItem_Call {
+func (_c *MockRepository_AddCartItem_Call) Run(run func(ctx context.Context, cartID int64, product string, price float64)) *MockRepository_AddCartItem_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(int), args[2].(string), args[3].(float64))
+		run(args[0].(context.Context), args[1].(int64), args[2].(string), args[3].(float64))
 	})
 	return _c
 }
@@ -78,7 +78,7 @@ func (_c *MockRepository_AddCartItem_Call) Return(_a0 *entity.CartItem, _a1 erro
 	return _c
 }
 
-func (_c *MockRepository_AddCartItem_Call) RunAndReturn(run func(context.Context, int, string, float64) (*entity.CartItem, error)) *MockRepository_AddCartItem_Call {
+func (_c *MockRepository_AddCartItem_Call) RunAndReturn(run func(context.Context, int64, string, float64) (*entity.CartItem, error)) *MockRepository_AddCartItem_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -142,7 +142,7 @@ func (_c *MockRepository_CreateCart_Call) RunAndReturn(run func(context.Context)
 }
 
 // GetCart provides a mock function with given fields: ctx, cartID
-func (_m *MockRepository) GetCart(ctx context.Context, cartID int) (*entity.Cart, error) {
+func (_m *MockRepository) GetCart(ctx context.Context, cartID int64) (*entity.Cart, error) {
 	ret := _m.Called(ctx, cartID)
 
 	if len(ret) == 0 {
@@ -151,10 +151,10 @@ func (_m *MockRepository) GetCart(ctx context.Context, cartID int) (*entity.Cart
 
 	var r0 *entity.Cart
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int) (*entity.Cart, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (*entity.Cart, error)); ok {
 		return rf(ctx, cartID)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Cart); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Cart); ok {
 		r0 = rf(ctx, cartID)
 	} else {
 		if ret.Get(0) != nil {
@@ -162,7 +162,7 @@ func (_m *MockRepository) GetCart(ctx context.Context, cartID int) (*entity.Cart
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
 		r1 = rf(ctx, cartID)
 	} else {
 		r1 = ret.Error(1)
@@ -183,9 +183,9 @@ func (_e *MockRepository_Expecter) GetCart(ctx interface{}, cartID interface{}) 
 	return &MockRepository_GetCart_Call{Call: _e.mock.On("GetCart", ctx, cartID)}
 }
 
-func (_c *MockRepository_GetCart_Call) Run(run func(ctx context.Context, cartID int)) *MockRepository_GetCart_Call {
+func (_c *MockRepository_GetCart_Call) Run(run func(ctx context.Context, cartID int64)) *MockRepository_GetCart_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(int))
+		run(args[0].(context.Context), args[1].(int64))
 	})
 	return _c
 }
@@ -195,13 +195,13 @@ func (_c *MockRepository_GetCart_Call) Return(_a0 *entity.Cart, _a1 error) *Mock
 	return _c
 }
 
-func (_c *MockRepository_GetCart_Call) RunAndReturn(run func(context.Context, int) (*entity.Cart, error)) *MockRepository_GetCart_Call {
+func (_c *MockRepository_GetCart_Call) RunAndReturn(run func(context.Context, int64) (*entity.Cart, error)) *MockRepository_GetCart_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // RemoveCartItem provides a mock function with given fields: ctx, cartID, cartItemID
-func (_m *MockRepository) RemoveCartItem(ctx context.Context, cartID int, cartItemID int) error {
+func (_m *MockRepository) RemoveCartItem(ctx context.Context, cartID int64, cartItemID int64) error {
 	ret := _m.Called(ctx, cartID, cartItemID)
 
 	if len(ret) == 0 {
@@ -209,7 +209,7 @@ func (_m *MockRepository) RemoveCartItem(ctx context.Context, cartID int, cartIt
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) error); ok {
 		r0 = rf(ctx, cartID, cartItemID)
 	} else {
 		r0 = ret.Error(0)
@@ -231,9 +231,9 @@ func (_e *MockRepository_Expecter) RemoveCartItem(ctx interface{}, cartID interf
 	return &MockRepository_RemoveCartItem_Call{Call: _e.mock.On("RemoveCartItem", ctx, cartID, cartItemID)}
 }
 
-func (_c *MockRepository_RemoveCartItem_Call) Run(run func(ctx context.Context, cartID int, cartItemID int)) *MockRepository_RemoveCartItem_Call {
+func (_c *MockRepository_RemoveCartItem_Call) Run(run func(ctx context.Context, cartID int64, cartItemID int64)) *MockRepository_RemoveCartItem_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(int), args[2].(int))
+		run(args[0].(context.Context), args[1].(int64), args[2].(int64))
 	})
 	return _c
 }
@@ -243,7 +243,7 @@ func (_c *MockRepository_RemoveCartItem_Call) Return(_a0 error) *MockRepository_
 	return _c
 }
 
-func (_c *MockRepository_RemoveCartItem_Call) RunAndReturn(run func(context.Context, int, int) error) *MockRepository_RemoveCartItem_Call {
+func (_c *MockRepository_RemoveCartItem_Call) RunAndReturn(run func(context.Context, int64, int64) error) *MockRepository_RemoveCartItem_Call {
 	_c.Call.Return(run)
 	return _c
 }

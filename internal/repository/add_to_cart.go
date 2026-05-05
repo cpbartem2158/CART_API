@@ -7,7 +7,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/errorsx"
 )
 
-func (r *Repository) AddCartItem(ctx context.Context, cartID int, product string, price float64) (*entity.CartItem, error) {
+func (r *Repository) AddCartItem(ctx context.Context, cartID int64, product string, price float64) (*entity.CartItem, error) {
 
 	transaction, err := r.db.BeginTx(ctx, nil)
 	if err != nil {

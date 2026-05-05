@@ -16,7 +16,7 @@ func (s *Server) CalculatePrice(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cartIdStr := r.PathValue("id")
-	cartId, err := strconv.Atoi(cartIdStr)
+	cartId, err := strconv.ParseInt(cartIdStr, 10, 64)
 	if err != nil {
 		writeJSONError(w, http.StatusBadRequest, "invalid cart ID", s.logger)
 		return

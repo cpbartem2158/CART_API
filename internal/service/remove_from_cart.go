@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (s *Service) RemoveItem(ctx context.Context, cartID int, cartItemID int) error {
+func (s *Service) RemoveItem(ctx context.Context, cartID int64, cartItemID int64) error {
 
 	err := s.repo.RemoveCartItem(ctx, cartID, cartItemID)
 	if err != nil {
