@@ -13,6 +13,7 @@ import (
 	"github.com/cpbartem2158/CART_API/internal/handlers"
 	"github.com/cpbartem2158/CART_API/internal/repository"
 	"github.com/cpbartem2158/CART_API/internal/service"
+	"github.com/jmoiron/sqlx"
 )
 
 func main() {
@@ -32,11 +33,15 @@ func main() {
 		logger.Error("failed to connect database", "error", err)
 		os.Exit(1)
 	}
-	defer database.Close()
+	defer func(database *sqlx.DB) {
+		err := database.Close()
+		if err != nil {
+		}
+	}(database)
 
 	repo := repository.NewRepository(database)
-	service := service.NewService(repo, logger)
-	server := handlers.NewServer(service, logger, &cfg.Server)
+	serv := service.NewService(repo, logger)
+	server := handlers.NewServer(serv, logger, &cfg.Server)
 
 	serverErrors := make(chan error, 1)
 

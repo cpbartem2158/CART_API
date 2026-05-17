@@ -23,7 +23,6 @@ func TestService_CreateCart(t *testing.T) {
 		ID:    1,
 		Items: []entity.CartItem{},
 	}
-
 	mockRepo.On("CreateCart", context.Background()).Return(expectedCart, nil)
 
 	svc := NewService(mockRepo, logger)
@@ -93,7 +92,6 @@ func TestService_AddItem_Success(t *testing.T) {
 
 func TestService_AddItem_FullCart(t *testing.T) {
 	mockRepo := mocks.NewMockRepository(t)
-
 	mockRepo.On("AddCartItem", context.Background(), int64(1), "test", 121.0).Return(nil, errorsx.ErrCartFull)
 
 	svc := NewService(mockRepo, logger)
