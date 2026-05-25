@@ -4,6 +4,7 @@ metadata:
   name: cart-api-ingress
   namespace: test
 spec:
+  ingressClassName: nginx
   rules:
     - host: cart-api.local
       http:
@@ -14,4 +15,4 @@ spec:
               service:
                 name: cart-api
                 port:
-                  number: 8080
+                  number: 0

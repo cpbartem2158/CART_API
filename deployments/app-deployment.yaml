@@ -18,27 +18,10 @@ spec:
           image: cart-api
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: POSTGRES_DB
-          volumeMounts:
-            - mountPath: /app/config/config.yaml
-              name: config
-              subPath: config.yaml
+            - containerPort: 0
+          envFrom:
+            - secretRef:
+                name: app-secret
           resources:
             requests:
               memory: "64Mi"
@@ -48,16 +31,11 @@ spec:
               cpu: "200m"
           readinessProbe:
             tcpSocket:
-              port: 8080
+              port: 0
             initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:
             tcpSocket:
-              port: 8080
+              port: 0
             initialDelaySeconds: 10
             periodSeconds: 10
-      volumes:
-        - name: config
-          configMap:
-            name: app-config
-

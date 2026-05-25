@@ -7,6 +7,6 @@ spec:
   selector:
     app: cart-api
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 0
+      targetPort: 0
   type: ClusterIP

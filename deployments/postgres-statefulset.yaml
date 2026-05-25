@@ -17,24 +17,11 @@ spec:
       containers:
         - name: postgres
           image: postgres:15
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: POSTGRES_DB
+          envFrom:
+            - secretRef:
+                name: app-secret
           ports:
-            - containerPort: 5432
+            - containerPort: 0
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
@@ -47,7 +34,10 @@ spec:
               cpu: "500m"
           readinessProbe:
             exec:
-              command: ["pg_isready", "-U", "postgres"]
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
             initialDelaySeconds: 5
             periodSeconds: 5
   volumeClaimTemplates:
