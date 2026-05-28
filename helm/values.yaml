@@ -1,0 +1,57 @@
+namespace: default
+
+replicas: 2
+minReplicas: 2
+maxReplicas: 10
+
+image:
+  repository: cart-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+app:
+  port: 8080
+
+postgres:
+  port: 5432
+
+postgresql:
+  image: postgres:15
+  storage: 1Gi
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "100m"
+  limits:
+    memory: "128Mi"
+    cpu: "200m"
+
+hpa:
+  cpuTarget: 50
+  memoryTarget: 70
+
+ingress:
+  host: cart-api.local
+  className: nginx
+
+secret:
+  postgresUser: postgres
+  postgresPassword: "12345"
+  postgresDb: cart_db
+
+config:
+  database:
+    host: postgres
+    sslmode: disable
+  server:
+    readTimeout: 30s
+    writeTimeout: 30s
+    keepaliveTimeout: 120s

@@ -1,0 +1,22 @@
+namespace: dev
+
+replicas: 1
+minReplicas: 1
+maxReplicas: 3
+
+postgresql:
+  storage: 500Mi
+
+resources:
+  requests:
+    memory: "32Mi"
+    cpu: "50m"
+  limits:
+    memory: "64Mi"
+    cpu: "100m"
+
+ingress:
+  host: dev.cart-api.local
+
+secret:
+  postgresPassword: changeme

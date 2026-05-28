@@ -34,3 +34,7 @@ go.work.sum
 config.yaml
 
 load.md
+
+helm/values-dev.yaml
+helm/values-qa.yaml
+helm/values-prod.yaml

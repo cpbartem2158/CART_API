@@ -1,0 +1,22 @@
+namespace: prod
+
+replicas: 3
+minReplicas: 3
+maxReplicas: 10
+
+postgresql:
+  storage: 10Gi
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "200m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+
+ingress:
+  host: prod.cart-api.local
+
+secret:
+  postgresPassword: changeme
