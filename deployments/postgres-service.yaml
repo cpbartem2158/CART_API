@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: test
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 0
+      targetPort: 0
+  clusterIP: None
