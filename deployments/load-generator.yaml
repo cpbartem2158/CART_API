@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: load-generator
+  namespace: test
+spec:
+  containers:
+    - name: load-generator
+      image: busybox
+      command:
+        - /bin/sh
+        - -c
+        - |
+          # 30 параллельных бесконечных циклов
+          for i in $(seq 1 30); do
+            while true; do
+              wget -q -O- http://cart-api:8080/carts/1 2>/dev/null
+            done &
+          done
+          wait
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "64Mi"
+        limits:
+          cpu: "500m"
+          memory: "256Mi"
+  restartPolicy: Never

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"os"
 	"time"
 
 	"github.com/spf13/viper"
@@ -40,5 +41,18 @@ func LoadConfig(path string) (*Config, error) {
 	if err := viper.Unmarshal(&config); err != nil {
 		return nil, err
 	}
+	applyDatabaseEnvOverrides(&config)
 	return &config, nil
+}
+
+func applyDatabaseEnvOverrides(cfg *Config) {
+	if v := os.Getenv("POSTGRES_USER"); v != "" {
+		cfg.Database.User = v
+	}
+	if v := os.Getenv("POSTGRES_PASSWORD"); v != "" {
+		cfg.Database.Password = v
+	}
+	if v := os.Getenv("POSTGRES_DB"); v != "" {
+		cfg.Database.DBName = v
+	}
 }

@@ -1,0 +1,70 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: test
+
+resources:
+  - deployments/namespace.yaml
+  - deployments/resource-quota.yaml
+  - deployments/postgres-service.yaml
+  - deployments/postgres-statefulset.yaml
+  - deployments/app-service.yaml
+  - deployments/app-deployment.yaml
+  - deployments/app-hpa.yaml
+  - deployments/app-ingress.yaml
+# - deployments/load-generator.yaml
+
+secretGenerator:
+  - name: app-secret
+    envs:
+      - .env
+
+configMapGenerator:
+  - name: app-config
+    envs:
+      - .env
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: app-config
+      fieldPath: data.SERVER_PORT
+    targets:
+      - select:
+          kind: Deployment
+          name: cart-api
+        fieldPaths:
+          - spec.template.spec.containers.0.ports.0.containerPort
+          - spec.template.spec.containers.0.readinessProbe.tcpSocket.port
+          - spec.template.spec.containers.0.livenessProbe.tcpSocket.port
+      - select:
+          kind: Service
+          name: cart-api
+        fieldPaths:
+          - spec.ports.0.port
+          - spec.ports.0.targetPort
+      - select:
+          kind: Ingress
+          name: cart-api-ingress
+        fieldPaths:
+          - spec.rules.0.http.paths.0.backend.service.port.number
+
+  - source:
+      kind: ConfigMap
+      name: app-config
+      fieldPath: data.DATABASE_PORT
+    targets:
+      - select:
+          kind: StatefulSet
+          name: postgres
+        fieldPaths:
+          - spec.template.spec.containers.0.ports.0.containerPort
+      - select:
+          kind: Service
+          name: postgres
+        fieldPaths:
+          - spec.ports.0.port
+          - spec.ports.0.targetPort
